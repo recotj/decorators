@@ -1,8 +1,6 @@
 const _ = require('lodash');
 const {Component} = require('react');
-//const inherits = require('../utils/inherits');
-//const {inherits} = require('util');
-const inherits = () => {};
+const {inherits} = require('utils');
 
 const lifecycle = module.exports;
 

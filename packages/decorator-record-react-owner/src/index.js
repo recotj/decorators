@@ -1,8 +1,7 @@
 const _ = require('lodash');
 const {Component} = require('react');
 const ReactDOM = require('react-dom');
-//const inherits = require('../utils/inherits');
-const inherits = () => {};
+const {inherits} = require('utils');
 
 const INTERNAL_KEY = Symbol('internal-key');
 const OWNERS = Symbol('owners');
