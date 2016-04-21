@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const PooledClass = require('react/lib/PooledClass');
+const PooledClass = require('./PooledClass');
 
 const poolers = [
 	undefined,
