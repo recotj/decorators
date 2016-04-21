@@ -7,6 +7,8 @@ const DIST_PATH = './dist';
 const DIST_PACKAGES_PATH = `${DIST_PATH}/packages`;
 const ENTRY_FILE = 'entry.js';
 
+const PACKAGE_PREFIX = /^decorator-/;
+
 const isWin32 = (path.win32 === path);
 const srcEx = isWin32 ? /(packages\\[^\\]+)\\src\\/ : /(packages\/[^\/]+)\/src\//;
 const libFragment = isWin32 ? '$1\\lib\\' : '$1/lib/';
@@ -38,7 +40,7 @@ gulp.task('build:packages', () => {
 			file.path = file.path.replace(srcEx, libFragment);
 			callback(null, file);
 		}))
-		//.pipe(newer(PACKAGES_PATH))
+		.pipe(newer(PACKAGES_PATH))
 		.pipe(through.obj((file, enc, callback) => {
 			gutil.log('compiling', `'${chalk.cyan(file._path)}'...`);
 			callback(null, file);
@@ -62,7 +64,8 @@ gulp.task('entry', ['build:modules'], (done) => {
 		if (error) return console.error(error);
 		const scripts = [];
 		files.forEach((filename) => {
-			const key = filename.replace(/^decorator-/, '').replace(/-([a-z])/g, (m, p1) => p1.toUpperCase());
+			if (PACKAGE_PREFIX) filename = filename.replace(PACKAGE_PREFIX, '');
+			const key = filename.replace(/-([a-z])/g, (m, p1) => p1.toUpperCase());
 			const script = `module.exports['${key}'] = require('./${filename}');`;
 			scripts.push(script);
 		});
