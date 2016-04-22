@@ -135,8 +135,8 @@ gulp.task('install-deps', (done) => {
 	console.log('where: ', pkgJSON._where);
 	pkgJSON._where = pkgJSON._where || process.cwd();
 
-	//require('check-deps')(pkgJSON, done);
-	done('abc');
+	require('check-deps')(pkgJSON, done);
+	//done('abc');
 });
 
 
