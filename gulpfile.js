@@ -62,13 +62,12 @@ gulp.task('entry', ['build:modules'], (done) => {
 	fs.readdir(DIST_PATH, (error, files) => {
 		if (error) return console.error(error);
 		const scripts = [];
-		//files.forEach((filename) => {
-		//	const prefixTrimmed = PACKAGE_PREFIX ? filename.replace(PACKAGE_PREFIX, '') : filename;
-		//	const key = prefixTrimmed.replace(/-([a-z])/g, (m, p1) => p1.toUpperCase());
-		//	const script = `module.exports['${key}'] = require('./${filename}');`;
-		//	scripts.push(script);
-		//});
-		scripts.push(`module.exports['lifecycle'] = require('./decorator-lifecycle');`);
+		files.forEach((filename) => {
+			const prefixTrimmed = PACKAGE_PREFIX ? filename.replace(PACKAGE_PREFIX, '') : filename;
+			const key = prefixTrimmed.replace(/-([a-z])/g, (m, p1) => p1.toUpperCase());
+			const script = `module.exports['${key}'] = require('./${filename}');`;
+			scripts.push(script);
+		});
 		pass.end(new Buffer(scripts.join('\n'), 'utf8'));
 
 		const out = pass.pipe(makeVinylStream(ENTRY_FILE))
