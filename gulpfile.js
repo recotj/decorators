@@ -140,7 +140,7 @@ gulp.task('install-deps', (done) => {
 });
 
 
-gulp.task('release', (done) => {
+gulp.task('release', ['install-deps'], (done) => {
 	const run = require('run-sequence');
 	return run(
 		'clean',
