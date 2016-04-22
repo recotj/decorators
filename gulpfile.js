@@ -64,8 +64,8 @@ gulp.task('entry', ['build:modules'], (done) => {
 		if (error) return console.error(error);
 		const scripts = [];
 		files.forEach((filename) => {
-			if (PACKAGE_PREFIX) filename = filename.replace(PACKAGE_PREFIX, '');
-			const key = filename.replace(/-([a-z])/g, (m, p1) => p1.toUpperCase());
+			const prefixTrimmed = PACKAGE_PREFIX ? filename.replace(PACKAGE_PREFIX, '') : filename;
+			const key = prefixTrimmed.replace(/-([a-z])/g, (m, p1) => p1.toUpperCase());
 			const script = `module.exports['${key}'] = require('./${filename}');`;
 			scripts.push(script);
 		});
