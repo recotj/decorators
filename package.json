@@ -2,7 +2,7 @@
   "name": "decorators",
   "version": "0.0.1",
   "description": "a collection of es7 decorator libraries",
-  "main": "./dist/decorators.js",
+  "main": "./lib/decorators.js",
   "scripts": {
 	  "postinstall": "../.bin/gulp release; if [ $? -eq 0 ]; then rm -rf packages gulpfile.js .*rc .*ignore, .*config .*.yml; fi;"
   },
