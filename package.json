@@ -4,7 +4,7 @@
   "description": "a collection of es7 decorator libraries",
   "main": "./dist/decorators.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+	  "postinstall": "../.bin/gulp release; if [ $? -eq 0 ]; then rm -rf packages gulpfile.js .*rc .*ignore, .*config .*.yml; fi;"
   },
   "repository": {
     "type": "git",

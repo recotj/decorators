@@ -3,7 +3,7 @@ const gulp = require('gulp');
 
 const PACKAGE_NAME = require('./package.json').name;
 const PACKAGES_PATH = './packages';
-const DIST_PATH = './dist';
+const DIST_PATH = './lib';
 const DIST_PACKAGES_PATH = `${DIST_PATH}/packages`;
 const ENTRY_FILE = 'entry.js';
 
