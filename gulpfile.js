@@ -136,10 +136,7 @@ gulp.task('build:min', ['entry'], () => {
 });
 
 gulp.task('install-deps', (done) => {
-	const pkgJSON = require('./package.json');
-	pkgJSON._where = pkgJSON._where || process.cwd();
-
-	require('check-deps')(pkgJSON, done);
+	require('check-deps')(PACKAGE_NAME, done);
 });
 
 gulp.task('release', ['install-deps'], (done) => {
