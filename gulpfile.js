@@ -130,6 +130,13 @@ gulp.task('build:min', ['entry'], () => {
 		.pipe(gulp.dest(DIST_PATH));
 });
 
+gulp.task('install-deps', (done) => {
+	const pkgJSON = require('./package.json');
+	pkgJSON._where = pkgJSON._where || process.cwd();
+
+	require('check-deps')(pkgJSON, done);
+});
+
 
 gulp.task('release', (done) => {
 	const run = require('run-sequence');
