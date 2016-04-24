@@ -17,16 +17,22 @@ fork(gulpBin, ['release']);
 function findNearestNodeModules(moduleId) {
 	let error;
 	let modulePath;
-	let moduleIndexFile;
 
 	try {
 		modulePath = require.resolve(moduleId);
-		moduleIndexFile = path.join(moduleId, require(`${moduleId}/package.json`).main || 'index.js');
 	} catch (e) {
 		error = e;
 	}
 
 	if (error) return console.error(error);
 
-	return modulePath.replace(new RegExp(`${moduleIndexFile}$`), '');
+	let dir;
+	let parentDir = path.dirname(modulePath);
+
+	do {
+		dir = parentDir;
+		parentDir = path.resolve(dir, '..');
+	} while (path.relative(parentDir, dir) !== 'node_modules' && parentDir !== '/');
+
+	return dir;
 }

@@ -11,10 +11,11 @@ const spawn = require('child_process').spawn;
 
 spawn('rm', [
 	'-rf',
-	'../packages',
-	'../gulpfile.js',
-	'../.babelrc',
-	'../.gitignore',
-	'../.editorconfig',
-	'../.travis.yml'
-], {cwd: __dirname});
+	'packages',
+	'gulpfile.js',
+	'.babelrc',
+	'.gitignore',
+	'.editorconfig',
+	'.travis.yml',
+	'scripts'
+], {cwd: path.resolve(__dirname, '..')});
