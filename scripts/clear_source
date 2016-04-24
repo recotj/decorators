@@ -16,6 +16,5 @@ spawn('rm', [
 	'../.*rc',
 	'../*ignore',
 	'../.*config',
-	'../*.yml',
-	'./scripts'
+	'../*.yml'
 ], {cwd: __dirname});
