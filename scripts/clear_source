@@ -7,7 +7,6 @@ const pkgJSON = require('../package.json');
 if (pkgJSON['_where']) {
 	spawn('rm', [
 		'-rf',
-		'../lib',
 		'../packages',
 		'../gulpfile.js',
 		'../.*rc',
