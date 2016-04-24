@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const fork = require('child_process').fork;
+const path = require('path');
+
+const gulpBin = path.join(findNearestNodeModules('gulp'), '.bin', 'gulp');
+
+fork(gulpBin, ['release']);
+
+function findNearestNodeModules(moduleId) {
+	let error;
+	let modulePath;
+	let moduleIndexFile;
+
+	try {
+		modulePath = require.resolve(moduleId);
+		moduleIndexFile = path.join(moduleId, require(`${moduleId}/package.json`).main || 'index.js');
+	} catch (e) {
+		error = e;
+	}
+
+	if (error) return console.error(error);
+
+	return modulePath.replace(new RegExp(`${moduleIndexFile}$`), '');
+}

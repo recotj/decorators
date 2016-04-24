@@ -135,11 +135,7 @@ gulp.task('build:min', ['entry'], () => {
 		.pipe(gulp.dest(DIST_PATH));
 });
 
-gulp.task('install-deps', (done) => {
-	require('check-deps')(PACKAGE_NAME, done);
-});
-
-gulp.task('release', ['install-deps'], (done) => {
+gulp.task('release', (done) => {
 	const run = require('run-sequence');
 	return run(
 		'clean',
