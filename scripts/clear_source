@@ -1,18 +1,19 @@
 #!/usr/bin/env node
 
+const pkgJSON = require('../package.json');
+const shouldRun = Boolean(pkgJSON['_where']);
+
+if (!shouldRun) return;
+
 const spawn = require('child_process').spawn;
 
-const pkgJSON = require('../package.json');
-
-if (pkgJSON['_where']) {
-	spawn('rm', [
-		'-rf',
-		'../packages',
-		'../gulpfile.js',
-		'../.*rc',
-		'../*ignore',
-		'../.*config',
-		'../*.yml',
-		'./scripts'
-	], {cwd: __dirname});
-}
+spawn('rm', [
+	'-rf',
+	'../packages',
+	'../gulpfile.js',
+	'../.*rc',
+	'../*ignore',
+	'../.*config',
+	'../*.yml',
+	'./scripts'
+], {cwd: __dirname});
