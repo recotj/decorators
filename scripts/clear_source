@@ -13,8 +13,8 @@ spawn('rm', [
 	'-rf',
 	'../packages',
 	'../gulpfile.js',
-	'../.*rc',
-	'../*ignore',
-	'../.*config',
-	'../*.yml'
+	'../.babelrc',
+	'../.gitignore',
+	'../.editorconfig',
+	'../.travis.yml'
 ], {cwd: __dirname});
