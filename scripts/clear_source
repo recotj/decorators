@@ -8,6 +8,7 @@ const shouldRun = Boolean(pkgJSON['_where']);
 if (!shouldRun) return;
 
 const spawn = require('child_process').spawn;
+const path = require('path');
 
 spawn('rm', [
 	'-rf',
