@@ -81,22 +81,27 @@ gulp.task('build', ['entry'], () => {
 	const browserify = require('browserify');
 	const makeVinylStream = require('vinyl-source-stream');
 	const plumber = require('gulp-plumber');
+	const derequire = require('browserify-derequire');
 
 	const options = {
 		entries: [ENTRY_FILE],
 		basedir: DIST_PATH,
-		standalone: PACKAGE_NAME
+		standalone: PACKAGE_NAME,
+		// @see https://github.com/rse/browserify-derequire#about
+		// "even in standalone mode all require() calls are left intact. and this causes trouble on
+		// subsequent embedding of the bundle (and this way reanalyzing) in other Browserify toolchains"
+		plugin: [derequire]
 	};
 
 	return browserify(options)
 		.external(['react', 'react-dom', 'react/lib/PooledClass', 'lodash'])
 		.bundle()
-		.pipe(makeVinylStream(`${PACKAGE_NAME}.js`))
 		.pipe(plumber({
 			errorHandler(err) {
 				gutil.log(err.stack);
 			}
 		}))
+		.pipe(makeVinylStream(`${PACKAGE_NAME}.js`))
 		.pipe(gulp.dest(DIST_PATH));
 });
 
