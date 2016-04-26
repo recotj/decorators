@@ -4,7 +4,7 @@
   "description": "a collection of es7 decorator libraries",
   "main": "./lib/decorators.js",
   "scripts": {
-	  "postinstall": "scripts/check_deps; scripts/build; scripts/clear_source;"
+	  "postinstall": "scripts/src/check_deps; scripts/build; scripts/clear_source;"
   },
   "repository": {
     "type": "git",
