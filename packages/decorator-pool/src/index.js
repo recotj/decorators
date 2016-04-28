@@ -25,8 +25,13 @@ const pool = module.exports = ({capacity, pooler, guard}) => (Klass, key, descri
 		};
 	}
 
-	if (typeof Klass.prototype.destructor !== 'function') {
-		// TODO: should interrupt the decoration here, or at least give out a warning ?
+	const destructor = Klass.prototype.destructor;
+	if (typeof destructor === 'function') {
+		Klass.prototype.destructor = function () {
+			Reflect.apply(destructor, this, arguments);
+			Reflect.apply(standardDestructor, this, []);
+		};
+	} else {
 		Klass.prototype.destructor = standardDestructor;
 	}
 
