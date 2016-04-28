@@ -1,0 +1,21 @@
+{
+  "name": "decorator-lift",
+  "version": "0.0.1",
+  "description": "a decorator to lift a common value to a high leval proxy for the value, such as a promise, a behavior and so on.",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/recotj/decorators/tree/master/packages/decorator-lift"
+  },
+  "keywords": [
+    "decorator",
+    "lift",
+    "promise",
+    "behavior"
+  ],
+  "author": "reco",
+  "license": "MIT"
+}
