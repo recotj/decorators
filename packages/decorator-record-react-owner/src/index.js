@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const {Component} = require('react');
 const ReactDOM = require('react-dom');
 const {inherits} = require('utils');
@@ -19,7 +18,7 @@ const ReactOwnerRecord = module.exports = (Klass) => {
 			const element = ReactDOM.findDOMNode(this);
 			const owners = element[OWNERS] || (element[OWNERS] = {});
 			owners[Klass[INTERNAL_KEY]] = this;
-			if (_.isFunction(super.componentDidMount)) super.componentDidMount();
+			if (typeof super.componentDidMount === 'function') super.componentDidMount();
 		}
 
 		// TODO: is it necessary to manually remove the reference to the react component from the dom element
@@ -28,7 +27,7 @@ const ReactOwnerRecord = module.exports = (Klass) => {
 		componentWillUnmount() {
 			const element = ReactDOM.findDOMNode(this);
 			Reflect.deleteProperty(element[OWNERS], Klass[INTERNAL_KEY]);
-			if (_.isFunction(super.componentWillUnmount)) super.componentWillUnmount();
+			if (typeof super.componentWillUnmount === 'function') super.componentWillUnmount();
 		}
 	}
 
@@ -36,11 +35,11 @@ const ReactOwnerRecord = module.exports = (Klass) => {
 };
 
 ReactOwnerRecord.getOwner = (element, ownerType) => {
-	if (!_.isFunction(element)) return null;
-	if (!_.isFunction(ownerType)) return null;
+	if (!(element instanceof HTMLElement)) return null;
+	if (typeof ownerType !== 'function') return null;
 
 	const owners = element[OWNERS];
-	if (_.isEmpty(owners)) return null;
+	if (!owners || Object.keys(owners).length === 0) return null;
 
 	const internalKey = ownerType[INTERNAL_KEY];
 	if (!internalKey) return null;

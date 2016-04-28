@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const PooledClass = require('./PooledClass');
 
 const poolers = [
@@ -13,12 +12,12 @@ const pool = module.exports = ({capacity, pooler, guard}) => (Klass, key, descri
 	if (descriptor) return descriptor;
 
 	if (!isPositiveInteger(capacity)) capacity = undefined;
-	if (!_.isFunction(pooler)) pooler = poolers[Klass.length];
+	if (typeof pooler !== 'function') pooler = poolers[Klass.length];
 
 	Klass.poolSize = capacity;
 	PooledClass.addPoolingTo(Klass, pooler);
 
-	if (_.isFunction(guard)) {
+	if (typeof guard === 'function') {
 		const release = Klass.release;
 		Klass.release = function (instance) {
 			if (Reflect.apply(guard, Klass, [instance, Klass]))
@@ -26,7 +25,7 @@ const pool = module.exports = ({capacity, pooler, guard}) => (Klass, key, descri
 		};
 	}
 
-	if (!_.isFunction(Klass.prototype.destructor)) {
+	if (typeof Klass.prototype.destructor !== 'function') {
 		// TODO: should interrupt the decoration here, or at least give out a warning ?
 		Klass.prototype.destructor = standardDestructor;
 	}
@@ -34,10 +33,10 @@ const pool = module.exports = ({capacity, pooler, guard}) => (Klass, key, descri
 	return Klass;
 };
 
-_.assign(pool, PooledClass);
+Object.assign(pool, PooledClass);
 
 function standardDestructor() {
-	_.forOwn(this, (v, k) => {
+	Object.keys(this).forEach((k) => {
 		this[k] = null;
 	});
 }

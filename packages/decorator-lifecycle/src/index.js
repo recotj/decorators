@@ -1,12 +1,11 @@
-const _ = require('lodash');
 const {Component} = require('react');
 const {inherits} = require('utils');
 
 const lifecycle = module.exports;
 
 lifecycle.forClass = ({firstDidInstantiate, lastWillUninstantiate}) => (Klass) => {
-	if (!_.isFunction(firstDidInstantiate)) return Klass;
-	if (!_.isFunction(lastWillUninstantiate)) return Klass;
+	if (typeof firstDidInstantiate !== 'function') return Klass;
+	if (typeof lastWillUninstantiate !== 'function') return Klass;
 
 	let instanceCount = 0;
 
@@ -15,14 +14,14 @@ lifecycle.forClass = ({firstDidInstantiate, lastWillUninstantiate}) => (Klass) =
 	if (Component.prototype.isPrototypeOf(Klass.prototype)) {
 		class MiddleClass extends SuperClass {
 			componentDidMount() {
-				if (_.isFunction(super.componentDidMount)) super.componentDidMount();
+				if (typeof super.componentDidMount === 'function') super.componentDidMount();
 				if (instanceCount === 0) firstDidInstantiate(this);
 				instanceCount += 1;
 			}
 			componentWillUnmount() {
 				instanceCount -= 1;
 				if (instanceCount === 0) lastWillUninstantiate(this);
-				if (_.isFunction(super.componentWillUnmount)) super.componentWillUnmount();
+				if (typeof super.componentWillUnmount === 'function') super.componentWillUnmount();
 			}
 		}
 
@@ -37,7 +36,7 @@ lifecycle.forClass = ({firstDidInstantiate, lastWillUninstantiate}) => (Klass) =
 			destructor() {
 				instanceCount -= 1;
 				if (instanceCount === 0) lastWillUninstantiate(this);
-				if (_.isFunction(super.destructor)) super.destructor();
+				if (typeof super.destructor === 'function') super.destructor();
 			}
 		}
 
