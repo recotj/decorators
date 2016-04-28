@@ -1,0 +1,19 @@
+{
+  "name": "decorator-guard",
+  "version": "0.0.1",
+  "description": "a decorator used to guard",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/recotj/decorators/tree/master/packages/decorator-guard"
+  },
+  "keywords": [
+    "decorator",
+    "guard"
+  ],
+  "author": "reco",
+  "license": "MIT"
+}
