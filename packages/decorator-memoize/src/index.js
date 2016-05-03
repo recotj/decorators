@@ -2,7 +2,7 @@ const OrderedMap = require('OrderedMap');
 
 const UNSET = Symbol('unset');
 
-const memoize = module.exports = ({resolver, capacity, expose, constant}) => (target, key, descriptor) => {
+const memoize = module.exports = ({ resolver, capacity, expose, constant }) => (target, key, descriptor) => {
 	const field = descriptor.get ? 'get' : 'value';
 	const method = descriptor[field];
 
@@ -11,13 +11,13 @@ const memoize = module.exports = ({resolver, capacity, expose, constant}) => (ta
 	if (typeof resolver !== 'function') resolver = _.identity;
 	if (!isPositiveInteger(capacity)) capacity = Number.POSITIVE_INFINITY;
 
-	descriptor[field] = createMemoized(method, key, {resolver, capacity, expose, constant});
+	descriptor[field] = createMemoized(method, key, { resolver, capacity, expose, constant });
 
 	return descriptor;
 };
 
-memoize.constant = memoize({constant: true});
-memoize.one = (resolver) => memoize({capacity: 1, resolver});
+memoize.constant = memoize({ constant: true });
+memoize.one = (resolver) => memoize({ capacity: 1, resolver });
 
 function createMemoized(method, key, options) {
 	if (options.constant === true) {
@@ -42,7 +42,7 @@ function createConstantMemoized(method) {
 	};
 }
 
-function createSingleMemoized(method, key, {resolver}) {
+function createSingleMemoized(method, key, { resolver }) {
 	let result = UNSET;
 	let cacheKey = UNSET;
 
@@ -64,7 +64,7 @@ function createSingleMemoized(method, key, {resolver}) {
 	return memoized;
 }
 
-function createCommonMemoized(method, key, {resolver, capacity, expose}) {
+function createCommonMemoized(method, key, { resolver, capacity, expose }) {
 	let cache = UNSET;
 
 	const memoized = function () {

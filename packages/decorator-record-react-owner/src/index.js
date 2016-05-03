@@ -1,6 +1,6 @@
-const {Component} = require('react');
+const { Component } = require('react');
 const ReactDOM = require('react-dom');
-const {inherits} = require('utils');
+const inherits = require('utils/lib/inherits');
 
 const INTERNAL_KEY = Symbol('internal-key');
 const OWNERS = Symbol('owners');

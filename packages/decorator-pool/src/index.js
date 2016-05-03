@@ -8,7 +8,7 @@ const poolers = [
 	PooledClass.fiveArgumentPooler
 ];
 
-const pool = module.exports = ({capacity, pooler, guard}) => (Klass, key, descriptor) => {
+const pool = module.exports = ({ capacity, pooler, guard }) => (Klass, key, descriptor) => {
 	if (descriptor) return descriptor;
 
 	if (!isPositiveInteger(capacity)) capacity = undefined;

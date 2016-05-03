@@ -1,9 +1,9 @@
-const {Component} = require('react');
-const {inherits} = require('utils');
+const { Component } = require('react');
+const inherits = require('utils/lib/inherits');
 
 const lifecycle = module.exports;
 
-lifecycle.forClass = ({firstDidInstantiate, lastWillUninstantiate}) => (Klass) => {
+lifecycle.forClass = ({ firstDidInstantiate, lastWillUninstantiate }) => (Klass) => {
 	if (typeof firstDidInstantiate !== 'function') return Klass;
 	if (typeof lastWillUninstantiate !== 'function') return Klass;
 
@@ -18,6 +18,7 @@ lifecycle.forClass = ({firstDidInstantiate, lastWillUninstantiate}) => (Klass) =
 				if (instanceCount === 0) firstDidInstantiate(this);
 				instanceCount += 1;
 			}
+
 			componentWillUnmount() {
 				instanceCount -= 1;
 				if (instanceCount === 0) lastWillUninstantiate(this);
@@ -33,6 +34,7 @@ lifecycle.forClass = ({firstDidInstantiate, lastWillUninstantiate}) => (Klass) =
 				if (instanceCount === 0) firstDidInstantiate(this);
 				instanceCount += 1;
 			}
+
 			destructor() {
 				instanceCount -= 1;
 				if (instanceCount === 0) lastWillUninstantiate(this);

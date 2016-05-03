@@ -1,4 +1,4 @@
-const lift = module.exports = ({force = false, onError = justThrow}) => (target, key, descriptor) => {
+const lift = module.exports = ({ force = false, onError = justThrow }) => (target, key, descriptor) => {
 	const method = descriptor.value;
 	const argsLength = method.length;
 
@@ -32,8 +32,8 @@ const lift = module.exports = ({force = false, onError = justThrow}) => (target,
 	return descriptor;
 };
 
-module.exports.liftOptional = lift({force: false});
-module.exports.liftAlways = lift({force: true});
+module.exports.liftOptional = lift({ force: false });
+module.exports.liftAlways = lift({ force: true });
 
 function justThrow(error) {
 	throw error;

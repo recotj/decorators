@@ -1,5 +1,5 @@
 const warning = require('warning');
-const inherits = require('utils/inherits');
+const inherits = require('utils/lib/inherits');
 
 const DEFAULT_VERSIONS = 2;
 const VERSION_MAP = Symbol('version-map');
@@ -8,7 +8,7 @@ const VERSION_SCALE = Symbol('version-scale');
 const VERSION_SCOPE = Symbol('version-scope');
 const VERSIONED = Symbol('versioned');
 
-const history = module.exports = ({versions}) => (Klass, key, descriptor) => {
+const history = module.exports = ({ versions }) => (Klass, key, descriptor) => {
 	if (descriptor) return descriptor;
 	if (!isValidVersions(versions)) versions = DEFAULT_VERSIONS;
 
@@ -34,7 +34,7 @@ const history = module.exports = ({versions}) => (Klass, key, descriptor) => {
 	Klass[VERSIONED] = true;
 };
 
-history.autoRecord = (fields, options = {local: false}) => (target, key, descriptor) => {
+history.autoRecord = (fields, options = { local: false }) => (target, key, descriptor) => {
 	const method = descriptor.value;
 
 	if (typeof method !== 'function') return descriptor;
@@ -68,7 +68,7 @@ history.record = (target, field, options) => {
 	versions.push(target[field]);
 };
 
-history.versions = (target, field, options = {local: false}) => {
+history.versions = (target, field, options = { local: false }) => {
 	checkVersioned(target.constructor, target);
 
 	if (options.local === true) {
