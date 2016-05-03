@@ -16,5 +16,8 @@
     "history"
   ],
   "author": "reco",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "warning": "^2.1.0"
+  }
 }

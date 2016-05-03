@@ -4,7 +4,7 @@
   "description": "a collection of es7 decorator libraries",
   "main": "./lib/decorators.js",
   "scripts": {
-	  "postinstall": "scripts/postinstall.sh;"
+    "postinstall": "scripts/postinstall.sh;"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/recotj/decorators#readme",
   "dependencies": {
+    "gulp-workflow": "git+https://github.com/recotj/gulp-workflow.git#for-multi-packages",
     "lodash": "^4.11.1",
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
