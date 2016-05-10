@@ -15,5 +15,8 @@
     "memoize"
   ],
   "author": "reco",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "ordered-map": "git+https://github.com/recotj/ordered-map.git"
+  }
 }

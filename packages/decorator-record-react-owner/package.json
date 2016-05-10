@@ -19,7 +19,8 @@
   "dependencies": {
     "lodash": "^4.11.1",
     "react": "^15.0.1",
-    "react-dom": "^15.0.1"
+    "react-dom": "^15.0.1",
+    "react-tree-utils": "git+https://github.com/recotj/react-tree-utils.git"
   },
   "devDependencies": {
     "chalk": "^1.1.3",
