@@ -2,7 +2,11 @@ const { Component } = require('react');
 const ReactDOM = require('react-dom');
 const inherits = require('utils/lib/inherits');
 
-const ReactOwnerUtil = require('react-tree-utils/lib/ReactOwnerUtil');
+const {
+	getOwnerComponentFromNode,
+	recordOwnerComponentForNode,
+	unsetOwnerComponentRecordForNode
+	} = require('react-tree-utils');
 
 const ReactOwnerRecord = module.exports = (Klass) => {
 	if (!Component.prototype.isPrototypeOf(Klass.prototype)) return;
@@ -11,7 +15,7 @@ const ReactOwnerRecord = module.exports = (Klass) => {
 
 	class MiddleClass extends SuperClass {
 		componentDidMount() {
-			ReactOwnerUtil.recordOwner(this, this);
+			recordOwnerComponentForNode(ReactDOM.findDOMNode(this), this);
 			if (typeof super.componentDidMount === 'function') super.componentDidMount();
 		}
 
@@ -19,7 +23,7 @@ const ReactOwnerRecord = module.exports = (Klass) => {
 		// 'cause the dom element would be removed from the dom tree later and all the references it keeps
 		// would be garbage-collected automatically.
 		componentWillUnmount() {
-			ReactOwnerUtil.unrecordOwner(this, this);
+			unsetOwnerComponentRecordForNode(ReactDOM.findDOMNode(this), this);
 			if (typeof super.componentWillUnmount === 'function') super.componentWillUnmount();
 		}
 	}
@@ -27,4 +31,4 @@ const ReactOwnerRecord = module.exports = (Klass) => {
 	inherits(Klass, MiddleClass);
 };
 
-ReactOwnerRecord.getOwner = ReactOwnerUtil.getOwner;
+ReactOwnerRecord.getOwner = getOwnerComponentFromNode;
