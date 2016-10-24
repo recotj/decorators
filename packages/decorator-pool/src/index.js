@@ -1,4 +1,4 @@
-const PooledClass = require('./PooledClass');
+import PooledClass from './PooledClass';
 
 const poolers = [
 	undefined,
@@ -8,7 +8,7 @@ const poolers = [
 	PooledClass.fiveArgumentPooler
 ];
 
-const pool = module.exports = ({ capacity, pooler, guard }) => (Klass, key, descriptor) => {
+const pool = ({ capacity, pooler, guard }) => (Klass, key, descriptor) => {
 	if (descriptor) return descriptor;
 
 	if (!isPositiveInteger(capacity)) capacity = undefined;
@@ -39,6 +39,8 @@ const pool = module.exports = ({ capacity, pooler, guard }) => (Klass, key, desc
 };
 
 Object.assign(pool, PooledClass);
+
+export default pool;
 
 function standardDestructor() {
 	Object.keys(this).forEach((k) => {

@@ -1,4 +1,4 @@
-module.exports = ({ precondition }) => (target, key, descriptor) => {
+export default ({ precondition }) => (target, key, descriptor) => {
 	const method = descriptor.value;
 
 	if (typeof method !== 'function') return descriptor;

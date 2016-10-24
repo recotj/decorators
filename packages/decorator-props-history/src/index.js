@@ -1,5 +1,5 @@
-const warning = require('warning');
-const inherits = require('utils/lib/inherits');
+import warning from 'warning';
+import inherits from 'utils/lib/inherits';
 
 const DEFAULT_VERSIONS = 2;
 const VERSION_MAP = Symbol('version-map');
@@ -8,7 +8,7 @@ const VERSION_SCALE = Symbol('version-scale');
 const VERSION_SCOPE = Symbol('version-scope');
 const VERSIONED = Symbol('versioned');
 
-const history = module.exports = ({ versions }) => (Klass, key, descriptor) => {
+const history = ({ versions }) => (Klass, key, descriptor) => {
 	if (descriptor) return descriptor;
 	if (!isValidVersions(versions)) versions = DEFAULT_VERSIONS;
 
@@ -34,7 +34,9 @@ const history = module.exports = ({ versions }) => (Klass, key, descriptor) => {
 	Klass[VERSIONED] = true;
 };
 
-history.autoRecord = (fields, options = { local: false }) => (target, key, descriptor) => {
+export default history;
+
+export const autoRecord = (fields, options = { local: false }) => (target, key, descriptor) => {
 	const method = descriptor.value;
 
 	if (typeof method !== 'function') return descriptor;
@@ -56,7 +58,7 @@ history.autoRecord = (fields, options = { local: false }) => (target, key, descr
 	return descriptor;
 };
 
-history.record = (target, field, options) => {
+export const record = (target, field, options) => {
 	checkVersioned(target.constructor, target);
 
 	const scale = target.constructor[VERSION_SCALE];
@@ -68,7 +70,7 @@ history.record = (target, field, options) => {
 	versions.push(target[field]);
 };
 
-history.versions = (target, field, options = { local: false }) => {
+export const versions = (target, field, options = { local: false }) => {
 	checkVersioned(target.constructor, target);
 
 	if (options.local === true) {
@@ -91,7 +93,7 @@ history.versions = (target, field, options = { local: false }) => {
 	return globalMap[field] || (globalMap[field] = []);
 };
 
-history.rollback = (target, field, options) => {
+export const rollback = (target, field, options) => {
 	checkVersioned(target.constructor);
 
 	const versions = history.versions(target, field, options);
@@ -101,7 +103,7 @@ history.rollback = (target, field, options) => {
 	return last;
 };
 
-history.checkpoint = (target, field, options) => {
+export const checkpoint = (target, field, options) => {
 	checkVersioned(target.constructor);
 
 	const versions = history.versions(target, field, options);

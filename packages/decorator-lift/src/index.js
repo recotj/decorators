@@ -1,4 +1,4 @@
-const lift = module.exports = ({ force = false, onError = justThrow }) => (target, key, descriptor) => {
+const lift = ({ force = false, onError = justThrow }) => (target, key, descriptor) => {
 	const method = descriptor.value;
 	const argsLength = method.length;
 
@@ -8,7 +8,11 @@ const lift = module.exports = ({ force = false, onError = justThrow }) => (targe
 	if (force === true) {
 		descriptor.value = function () {
 			const args = slice(arguments, argsLength);
-			return resolveAllPromises(args)
+			return resolveAllPromisingProps(this)
+				.then(
+					() => resolveAllPromises(args),
+					onError
+				)
 				.then(
 					(values) => Reflect.apply(method, this, values),
 					onError
@@ -32,8 +36,13 @@ const lift = module.exports = ({ force = false, onError = justThrow }) => (targe
 	return descriptor;
 };
 
-module.exports.liftOptional = lift({ force: false });
-module.exports.liftAlways = lift({ force: true });
+export default lift;
+export const liftOptional = lift({ force: false });
+export const liftAlways = lift({ force: true });
+
+function resolveAllPromisingProps(target) {
+	return resolveAllPromises(Reflect.ownKeys(target).map((key) => target[key]));
+}
 
 function justThrow(error) {
 	throw error;

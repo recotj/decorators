@@ -1,14 +1,14 @@
-const { Component } = require('react');
-const ReactDOM = require('react-dom');
-const inherits = require('utils/lib/inherits');
+import { Component } from 'react';
+import ReactDOM from 'react-dom';
+import inherits from 'utils/lib/inherits';
 
-const {
+import {
 	getOwnerComponentFromNode,
 	recordOwnerComponentForNode,
 	unsetOwnerComponentRecordForNode
-	} = require('react-tree-utils');
+	} from 'react-tree-utils';
 
-const ReactOwnerRecord = module.exports = (Klass) => {
+const ReactOwnerRecord = (Klass) => {
 	if (!Component.prototype.isPrototypeOf(Klass.prototype)) return;
 
 	const SuperClass = Reflect.getPrototypeOf(Klass.prototype).constructor;
@@ -31,4 +31,6 @@ const ReactOwnerRecord = module.exports = (Klass) => {
 	inherits(Klass, MiddleClass);
 };
 
-ReactOwnerRecord.getOwner = getOwnerComponentFromNode;
+export default ReactOwnerRecord;
+
+export const getOwner = getOwnerComponentFromNode;

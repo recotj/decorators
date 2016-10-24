@@ -1,23 +1,30 @@
-const OrderedMap = require('OrderedMap');
-
 const UNSET = Symbol('unset');
 
-const memoize = module.exports = ({ resolver, capacity, expose, constant }) => (target, key, descriptor) => {
+const memoize = ({ resolver, capacity, expose, constant }) => (target, key, descriptor) => {
 	const field = descriptor.get ? 'get' : 'value';
 	const method = descriptor[field];
 
-	if (typeof method !== 'function') return descriptor;
+	if (typeof method !== 'function') {
+		return descriptor;
+	}
 
-	if (typeof resolver !== 'function') resolver = _.identity;
-	if (!isPositiveInteger(capacity)) capacity = Number.POSITIVE_INFINITY;
+	if (typeof resolver !== 'function') {
+		resolver = identity;
+	}
+
+	if (!isPositiveInteger(capacity)) {
+		capacity = Number.POSITIVE_INFINITY;
+	}
 
 	descriptor[field] = createMemoized(method, key, { resolver, capacity, expose, constant });
 
 	return descriptor;
 };
 
-memoize.constant = memoize({ constant: true });
-memoize.one = (resolver) => memoize({ capacity: 1, resolver });
+export default memoize;
+
+export const constant = memoize({ constant: true });
+export const one = (resolver) => memoize({ capacity: 1, resolver });
 
 function createMemoized(method, key, options) {
 	if (options.constant === true) {
@@ -69,7 +76,7 @@ function createCommonMemoized(method, key, { resolver, capacity, expose }) {
 
 	const memoized = function () {
 		if (cache === UNSET) {
-			cache = new OrderedMap();
+			cache = new Map();
 
 			if (expose === true) {
 				this[key].cache = cache;
@@ -78,14 +85,15 @@ function createCommonMemoized(method, key, { resolver, capacity, expose }) {
 
 		const cacheKey = Reflect.apply(resolver, this, arguments);
 
-		if (cache.has(cacheKey))
+		if (cache.has(cacheKey)) {
 			return cache.get(cacheKey);
+		}
 
 		const result = Reflect.apply(method, this, arguments);
-		cache.set(cacheKey, result);
 
-		if (cache.size > capacity)
-			cache.shift();
+		if (cache.size < capacity) {
+			cache.set(cacheKey, result);
+		}
 
 		return result;
 	};
@@ -99,4 +107,8 @@ function createCommonMemoized(method, key, { resolver, capacity, expose }) {
 
 function isPositiveInteger(num) {
 	return num === (num | 0) && num > 0;
+}
+
+function identity(v) {
+	return v;
 }

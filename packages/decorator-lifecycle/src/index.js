@@ -1,9 +1,8 @@
-const { Component } = require('react');
-const inherits = require('utils/lib/inherits');
+import { Component } from 'react';
+import inherits from 'utils/lib/inherits';
 
-const lifecycle = module.exports;
-
-lifecycle.forClass = ({ firstDidInstantiate, lastWillUninstantiate }) => (Klass) => {
+export default {};
+export const forClass = ({ firstDidInstantiate, lastWillUninstantiate }) => (Klass) => {
 	if (typeof firstDidInstantiate !== 'function') return Klass;
 	if (typeof lastWillUninstantiate !== 'function') return Klass;
 

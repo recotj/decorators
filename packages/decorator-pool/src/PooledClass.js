@@ -1,1 +1,2 @@
-module.exports = require('react/lib/PooledClass');
+import PooledClass from 'react/lib/PooledClass';
+export default PooledClass;
